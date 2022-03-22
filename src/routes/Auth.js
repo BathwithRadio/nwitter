@@ -6,6 +6,7 @@ const Auth = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [newAccount, setNewAccount] = useState(true);
+    const [error, setError] = useState("");
     const onChange = (event) => {
         //1. input을 변경할 때마다 onChange function을 호출한다.
         //2. onChange function은 내가 input에 입력한 값들을 토대로 저장시킨다.
@@ -38,17 +39,21 @@ const Auth = () => {
           }
           console.log(data);
         } catch (error) {
-          console.log(error);
+          setError(error.message);
         }
-    }
+    };
+
+    //  setNewAccount를 하되 newAccount의 이전 값을 가져와서 그 값에 반대되는 것을 리턴할 것
+    const toggleAccount = () => setNewAccount((prev) => !prev);
+
     return (
       <div>
         <form onSubmit={onSubmit}>
           <input
             name="email"
-            type="email" 
-            placeholder="Email" 
-            required 
+            type="email"
+            placeholder="Email"
+            required
             value={email}
             onChange={onChange} //반드시 사용해야 한다.
           />
@@ -60,8 +65,15 @@ const Auth = () => {
             value={password}
             onChange={onChange} //반드시 사용해야 한다.
           />
-          <input type="submit" value={newAccount ? "Create Account" : "Log In"} />
+          <input
+            type="submit"
+            value={newAccount ? "Create Account" : "Log In"}
+          />
+          {error}
         </form>
+        <span onClick={toggleAccount}>
+          {newAccount ? "Sign in" : "Create Account"}
+        </span>
         <div>
           <button>Continue with Google</button>
           <button>Continue with GitHub</button>
