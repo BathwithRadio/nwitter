@@ -52,8 +52,10 @@ const Home = ({ userObj }) => {
         </form>
         <div>
           {nweets.map((nweet) => (
+            //Nweet은 내가 만든 Component이고
             <Nweet
               key={nweet.id}
+              //NweetObj는 전체의 Object이다 - 그리고 그것을 prop처럼 보내준다.
               nweetObj={nweet}
               isOwner={nweet.creatorId === userObj.uid}
             />

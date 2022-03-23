@@ -7,14 +7,10 @@ import { authService } from "fbase";
 Router와 Footer같은 다른 요소를 넣어주기 위해
 */
 function App() {
-  const [init, setInit] = useState(false);
-  // auth를 활용해서 user의 로그인 여부를 파악한다
-  // 단, 추가설정이 없으면 로그인 되는 즉시 로그아웃이 된다 - 
-  // firebase가 초기화 되고 모든 것 로드할 때 까지 기다려줄 시간이 없기 때문
-  const [isLoggedIn, setInLoggedIn] = useState(false);
+  const [init, setInit] = useState(false); //state
 
   // 사용자가 누구인지 파악하기위해 user 정보를 저장하게 해줄것
-  const [userObj, setUserObj] = useState(null);
+  const [userObj, setUserObj] = useState(null); //state
 
   // 컴포넌트가 mount될 때 실행
   // onAuthStateChanged로 - user의 상태를 확인하는 Observer
@@ -23,11 +19,8 @@ function App() {
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        setInLoggedIn(true);
         setUserObj(user);
-      } else {
-        setInLoggedIn(false);
-      }
+      } 
       // setInit(false)라면 router를 숨길 것이므로 true로 해준다
       setInit(true);
     });
@@ -38,7 +31,12 @@ function App() {
   // }, 2000)
   return (
     <>
-      {init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> : "Initializing...."}
+      {init ? (
+        // Boolean(userObj) : userObj가 있다면 로그인 한다
+        <AppRouter isLoggedIn={Boolean(userObj)} userObj={userObj} />
+      ) : (
+        "Initializing...."
+      )}
       <footer>&copy; {new Date().getFullYear()}Nwitter</footer>
     </>
   );
