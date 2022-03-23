@@ -1,6 +1,7 @@
 import Nweet from "components/Nweet";
-import { dbService } from "fbase";
 import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { dbService, storageService } from "fbase";
 
 //function component
 const Home = ({ userObj }) => {
@@ -23,12 +24,21 @@ const Home = ({ userObj }) => {
   //
   const onSubmit = async (event) => {
     event.preventDefault();
-    await dbService.collection("nweets").add({
+    // ref :  오브젝트를 업로드 다운로드 삭제 할 수 있게 해준다
+    // child : path를 받아서 reference를 반환한다
+    const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+    // reader.readAsDataURL이기 때문에 putString의 format은 "data_url"가 된다
+    const response = await attachmentRef.putString(attachment, "data_url");
+    const attachmentUrl = await response.ref.getDownloadURL();
+    const nweetObj = {
       text: nweet,
       createdAt: Date.now(),
       creatorId: userObj.uid,
-    });
+      attachmentUrl,
+    }
+    await dbService.collection("nweets").add(nweetObj);
     setNweet("");
+    setAttachment("");
   };
 
   // event 안에 있는 target 안에 있는 value를 달라고 하는 것
