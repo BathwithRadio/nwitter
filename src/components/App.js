@@ -13,6 +13,9 @@ function App() {
   // firebase가 초기화 되고 모든 것 로드할 때 까지 기다려줄 시간이 없기 때문
   const [isLoggedIn, setInLoggedIn] = useState(false);
 
+  // 사용자가 누구인지 파악하기위해 user 정보를 저장하게 해줄것
+  const [userObj, setUserObj] = useState(null);
+
   // 컴포넌트가 mount될 때 실행
   // onAuthStateChanged로 - user의 상태를 확인하는 Observer
   // Create Account를 클릭하거나 Log In을 누르거나 이미 로그인 되어 있다면
@@ -21,6 +24,7 @@ function App() {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setInLoggedIn(true);
+        setUserObj(user);
       } else {
         setInLoggedIn(false);
       }
@@ -34,7 +38,7 @@ function App() {
   // }, 2000)
   return (
     <>
-      {init ? <AppRouter isLoggedIn={isLoggedIn} /> : "Initializing...."}
+      {init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> : "Initializing...."}
       <footer>&copy; {new Date().getFullYear()}Nwitter</footer>
     </>
   );
