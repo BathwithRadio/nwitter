@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 const Home = ({ userObj }) => {
   const [nweet, setNweet] = useState("");
   const [nweets, setNweets] = useState([]);
+  const [attachment, setAttachment] = useState();
   //
   useEffect(() => {
     // onSnapshot Listner추가 - 데이터베이스에 뭔가(CRUD)를 하게 되면 알 수 있도록 해줌
@@ -43,16 +44,22 @@ const Home = ({ userObj }) => {
     const {
       target: { files },
     } = event;
-    // 파일을 가지고
+    // 1. 파일을 가지고
     const theFile = files[0];
-    // reader를 만들어서
+    // 2. reader를 만들어서
     const reader = new FileReader();
+    // 4. 파일 읽기가 끝나면 finishedEvent를 갖는 것
     reader.onloadend = (finishedEvent) => {
-      console.log(finishedEvent);
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setAttachment(result);
     }
-    // readAsDataURL를 이용해서 파일을 읽는 것
+    // 3. readAsDataURL를 이용해서 파일을 읽는 것
     reader.readAsDataURL(theFile);
   };
+
+  const onClearAttachment = () => setAttachment(null);
 
   return (
     <div>
@@ -66,6 +73,12 @@ const Home = ({ userObj }) => {
         />
         <input type="file" accept="image/*" onChange={onFileChange} />
         <input type="submit" value="Nweet" />
+        {attachment && (
+          <div>
+            <img src={attachment} width="50px" height="50px" />
+            <button onClick={onClearAttachment}>Clear</button>
+          </div>
+        )}
       </form>
       <div>
         {nweets.map((nweet) => (
