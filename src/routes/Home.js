@@ -24,18 +24,25 @@ const Home = ({ userObj }) => {
   //
   const onSubmit = async (event) => {
     event.preventDefault();
-    // ref :  오브젝트를 업로드 다운로드 삭제 할 수 있게 해준다
-    // child : path를 받아서 reference를 반환한다
-    const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
-    // reader.readAsDataURL이기 때문에 putString의 format은 "data_url"가 된다
-    const response = await attachmentRef.putString(attachment, "data_url");
-    const attachmentUrl = await response.ref.getDownloadURL();
+    let attachmentUrl = "";
+    // 사진이 있다면 사진을 보여줌
+    if (attachment !== "") {
+      // ref :  오브젝트를 업로드 다운로드 삭제 할 수 있게 해준다
+      // child : path를 받아서 reference를 반환한다
+      const attachmentRef = storageService
+        .ref()
+        .child(`${userObj.uid}/${uuidv4()}`);
+      // reader.readAsDataURL이기 때문에 putString의 format은 "data_url"가 된다
+      const response = await attachmentRef.putString(attachment, "data_url");
+      attachmentUrl = await response.ref.getDownloadURL();
+    }
+    // 사진이 있든 없든 작성글을 볼 수 있음
     const nweetObj = {
       text: nweet,
       createdAt: Date.now(),
       creatorId: userObj.uid,
       attachmentUrl,
-    }
+    };
     await dbService.collection("nweets").add(nweetObj);
     setNweet("");
     setAttachment("");
@@ -64,7 +71,7 @@ const Home = ({ userObj }) => {
         currentTarget: { result },
       } = finishedEvent;
       setAttachment(result);
-    }
+    };
     // 3. readAsDataURL를 이용해서 파일을 읽는 것
     reader.readAsDataURL(theFile);
   };
