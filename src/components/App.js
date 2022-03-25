@@ -20,11 +20,11 @@ function App() {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setUserObj(user);
-      } 
+      }
       // setInit(false)라면 router를 숨길 것이므로 true로 해준다
       setInit(true);
     });
-  }, [])
+  }, []);
   // console.log(authService.currentUser);
   // setInterval(() => {
   //   console.log(authService.currentUser);

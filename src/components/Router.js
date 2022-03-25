@@ -14,10 +14,11 @@ const AppRouter = ({isLoggedIn, userObj}) => { // 왜 Destructuring이 필요하
         {isLoggedIn ? (
           <>
             <Route exact path="/">
+                {/* userObj={userObj} : 내가 누구인지 알 수 있도록 정보 주입 */}
                 <Home userObj={userObj} />
             </Route>
             <Route exact path="/Profile">
-                <Profile />
+                <Profile userObj={userObj} />
             </Route>
              {/* "/"이 route에 있으면 상관 없는데  그 외의 route로 가게되면 "/"로 돌아가라는 뜻*/}
             {/* <Redirect from="*" to="/" /> */}
