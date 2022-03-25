@@ -14,6 +14,7 @@ const Profile = ({ userObj }) => {
     const getMyNweets = async () => {
         const nweets = await dbService
             .collection("nweets")
+            //`${userObj.uid}`로 해야 동작되었었다.
             .where("creatorId", "==", `${userObj.uid}`)
             .orderBy("createdAt")
             .get();
