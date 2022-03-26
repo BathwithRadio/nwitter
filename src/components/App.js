@@ -25,6 +25,8 @@ function App() {
           // 우리가 원하는 function을 얻기 위한 중간 function
           updateProfile: (args) => user.updateProfile(args),
         });
+      } else {
+        setUserObj(null);
       }
       // setInit(false)라면 router를 숨길 것이므로 true로 해준다
       setInit(true);
