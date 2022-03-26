@@ -9,7 +9,7 @@ const AppRouter = ({isLoggedIn, userObj}) => { // 왜 Destructuring이 필요하
   //Hooks
   return (
     <Router>
-      {isLoggedIn && <Navigation/>}
+      {isLoggedIn && <Navigation userObj={userObj} />}
       <Switch>
         {isLoggedIn ? (
           <>
