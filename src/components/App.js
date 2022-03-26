@@ -19,21 +19,38 @@ function App() {
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        setUserObj(user);
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          // 우리가 원하는 function을 얻기 위한 중간 function
+          updateProfile: (args) => user.updateProfile(args),
+        });
       }
       // setInit(false)라면 router를 숨길 것이므로 true로 해준다
       setInit(true);
     });
   }, []);
-  // console.log(authService.currentUser);
-  // setInterval(() => {
-  //   console.log(authService.currentUser);
-  // }, 2000)
+
+  //fireBase쪽의 user정보를 업데이트 해줌
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    setUserObj({
+      displayName: user.displayName,
+      uid: user.uid,
+      // 우리가 원하는 function을 얻기 위한 중간 function
+      updateProfile: (args) => user.updateProfile(args),
+    });
+  };
+
   return (
     <>
       {init ? (
         // Boolean(userObj) : userObj가 있다면 로그인 한다
-        <AppRouter isLoggedIn={Boolean(userObj)} userObj={userObj} />
+        <AppRouter
+          refreshUser={refreshUser} // 업데이트 실행 function
+          isLoggedIn={Boolean(userObj)}
+          userObj={userObj}
+        />
       ) : (
         "Initializing...."
       )}

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 //function component
-const Profile = ({ userObj }) => {
+const Profile = ({ refreshUser, userObj }) => {
   // Hook 사용
   const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
@@ -42,6 +42,7 @@ const Profile = ({ userObj }) => {
       await userObj.updateProfile({
         displayName: newDisplayName,
       });
+      refreshUser();
     }
   };
 
