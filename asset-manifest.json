@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/BathwithRadio/nwitter/static/css/main.d34172d5.css",
+    "main.js": "/BathwithRadio/nwitter/static/js/main.80361225.js",
+    "index.html": "/BathwithRadio/nwitter/index.html",
+    "main.d34172d5.css.map": "/BathwithRadio/nwitter/static/css/main.d34172d5.css.map",
+    "main.80361225.js.map": "/BathwithRadio/nwitter/static/js/main.80361225.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d34172d5.css",
+    "static/js/main.80361225.js"
+  ]
+}
